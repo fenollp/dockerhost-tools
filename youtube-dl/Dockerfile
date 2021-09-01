@@ -9,10 +9,13 @@ RUN \
 FROM tool AS product
 WORKDIR /app
 ARG ARGs
+ARG SEPARATOR=' '
 RUN \
     --mount=type=cache,target=/root/.cache/youtube-dl \
     set -ux \
- && youtube-dl --force-ipv4 --output '%(title)s-%(id)s.%(ext)s' $ARGs
+ && cmd="youtube-dl --cache-dir /root/.cache/youtube-dl --newline --force-ipv4 --output '%(title)s-%(id)s.%(ext)s'" \
+ && cmd="$cmd '$(echo "$ARGs" | sed "s%$SEPARATOR%' '%g")'" \
+ && eval $cmd
 
 FROM scratch
 COPY --from=product /app/* /
