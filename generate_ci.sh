@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: ./generate_ci.sh
-    - run: git status -sb && [[ 1 -eq \$(git status -sb --name-only | wc -l) ]]
+    - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 EOF
 
 find_start_of_last_matching() {
@@ -98,7 +98,7 @@ cat <<EOF >>"$out"
 EOF
 	fi
 cat <<EOF >>"$out"
-    - run: git status -sb && [[ 1 -eq \$(git status -sb --name-only | wc -l) ]]
+    - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 
 EOF
 	done
