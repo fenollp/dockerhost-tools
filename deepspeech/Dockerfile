@@ -89,7 +89,7 @@ FROM out-cpu
 ## ARG VERSION=0.9.3: SemVer of DeepSpeech
 ## ARG AUDIO_URL: URL of WAV file to run inference on. Is downloaded using Dockerfile's ADD statement.
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq '.transcripts[0]'; rm out
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq -S '.transcripts[0]'; rm out
 # ```json
 # {
 #   "confidence": -85.70286560058594,

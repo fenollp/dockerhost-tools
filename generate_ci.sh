@@ -87,10 +87,10 @@ Usages() {
 		fi
 cat <<EOF >>"$out"
     - run: |
-        got=\$(mktemp); expected=\$(mktemp)
-        $cmd 1>\$got
-        base64 -d <<<'$expecting' >\$expected
-        diff --width=150 -y \$expected \$got
+        echo GOT=\$(mktemp) >>\$GITHUB_ENV
+        echo EXPECTED=\$(mktemp) >>\$GITHUB_ENV
+    - run: |
+        $cmd 1>\$GOT
 EOF
 	if [[ -n "$usage" ]]; then
 cat <<EOF >>"$out"
@@ -98,6 +98,9 @@ cat <<EOF >>"$out"
 EOF
 	fi
 cat <<EOF >>"$out"
+    - run: |
+        base64 -d <<<'$expecting' >\$EXPECTED
+        diff --width=150 -y \$EXPECTED \$GOT
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 
 EOF
