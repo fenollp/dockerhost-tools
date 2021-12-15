@@ -7,7 +7,7 @@ FROM --platform=$BUILDPLATFORM docker.io/stablebaselines/rl-baselines3-zoo-cpu:1
 
 FROM alpine AS bs3-zoo-src
 WORKDIR /w
-ARG SB3_ZOO_COMMIT=master
+ARG SB3_ZOO_COMMIT=111d03c4ce728fff51d4b1c10355ea612bc8d456
 RUN \
     set -ux \
  && apk add --no-cache git \
@@ -50,12 +50,12 @@ RUN \
     set -ux \
  && pip3 install 'mujoco-py<2.2,>=2.1' \
  && export LD_LIBRARY_PATH=$(echo /root/.mujoco/*/bin) \
- && python3 -c "import mujoco_py; assert mujoco_py.__version__.startswith('2.1')"
+ && python3 -c "import mujoco_py; assert mujoco_py.__version__.startswith('2.1.')"
 
 
 FROM tool AS product
-ARG ALGO_NAME=td3
-ARG ENV_ID=Hopper-v3
+ARG ALGO_NAME=ppo
+ARG ENV_ID=CartPole-v1
 ARG ARGs=
 ARG SEPARATOR=' '
 RUN \
@@ -68,17 +68,17 @@ RUN \
 
 
 FROM scratch
-COPY --from=product /root/code/rl_zoo/logs/* /
+COPY --from=product /root/code/rl_zoo/logs /
 
 
 ## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
 ## ARG ARGs=: $SEPARATOR-separated CLI arguments
-## ARG ALGO_NAME=td3: Algorithm name given to train.py --algo
-## ARG ENV_ID=Hopper-v3: Environment ID given to train.py --env
-## ARG SB3_ZOO_COMMIT=master: Commit hash for requested https://github.com/DLR-RM/rl-baselines3-zoo/commits
+## ARG ALGO_NAME=ppo: Algorithm name given to train.py --algo
+## ARG ENV_ID=CartPole-v1: Environment ID given to train.py --env
+## ARG SB3_ZOO_COMMIT=111d03c4ce728fff51d4b1c10355ea612bc8d456: Commit hash for requested https://github.com/DLR-RM/rl-baselines3-zoo/commits
 ## ARG MUJOCO_VERSION=mujoco210-linux-x86_64: Version of MuJoCo to use, from https://mujoco.org/download
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& tensorboard --logdir .
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0 && tensorboard --logdir tensorboard
 # Dockerfile
-# Hopper-v3
-# Hopper-v3_1
+# ppo
+# tensorboard

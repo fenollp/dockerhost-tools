@@ -88,7 +88,9 @@ Usages() {
 cat <<EOF >>"$out"
     - run: |
         echo GOT=\$(mktemp) >>\$GITHUB_ENV
-        echo EXPECTED=\$(mktemp) >>\$GITHUB_ENV
+        EXPECTED=\$(mktemp)
+        base64 -d <<<'$expecting' >\$EXPECTED
+        echo EXPECTED=\$EXPECTED >>\$GITHUB_ENV
     - run: |
         $cmd 1>\$GOT
 EOF
@@ -99,7 +101,6 @@ EOF
 	fi
 cat <<EOF >>"$out"
     - run: |
-        base64 -d <<<'$expecting' >\$EXPECTED
         diff --width=150 -y \$EXPECTED \$GOT
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 

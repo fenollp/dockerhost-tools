@@ -22,34 +22,37 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'MzcxNzQwODdjYzJiMDBkZjQ3ZTY4Y2NmCg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$GOT
       name: " with some JPEG"
     - run: |
-        base64 -d <<<'MzcxNzQwODdjYzJiMDBkZjQ3ZTY4Y2NmCg==' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out 1>$GOT
       name: " pre-image example..."
     - run: |
-        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860810-f414259a-3253-43e3-9e8e-a0ef78372233.png - <Dockerfile && cat out 1>$GOT
       name: " ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387"
     - run: |
-        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -67,11 +70,12 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'ewogICAgImNvbmZpZGVuY2UiOiAtODUuNzAyODY1NjAwNTg1OTQsCiAgICAid29yZHMiOiBbCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC4yOCwKICAgICAgICAgICAgIndvcmQiOiAiaSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAwLjQyLAogICAgICAgICAgICAid29yZCI6ICJrbm93IgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDAuNjIsCiAgICAgICAgICAgICJ3b3JkIjogInRoYXQiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTIsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC44LAogICAgICAgICAgICAid29yZCI6ICJ5b3UiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC45OCwKICAgICAgICAgICAgIndvcmQiOiAiYW5kIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDEuMiwKICAgICAgICAgICAgIndvcmQiOiAiZnJhbmsiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMS41NiwKICAgICAgICAgICAgIndvcmQiOiAid2VyZSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yOCwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAxLjc4LAogICAgICAgICAgICAid29yZCI6ICJwbGFubmluZyIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xMiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAyLjEsCiAgICAgICAgICAgICJ3b3JkIjogInRvIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjU2LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDIuMywKICAgICAgICAgICAgIndvcmQiOiAiZGlzY29ubmVjdCIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC42LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDIuOTQsCiAgICAgICAgICAgICJ3b3JkIjogIm1lIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMy42NCwKICAgICAgICAgICAgIndvcmQiOiAiYW5kIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMy44MiwKICAgICAgICAgICAgIndvcmQiOiAiaSdtIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjMyLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDQsCiAgICAgICAgICAgICJ3b3JkIjogImFmcmFpZCIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDQuMzgsCiAgICAgICAgICAgICJ3b3JkIjogInRoYXQiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMywKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA0LjYyLAogICAgICAgICAgICAid29yZCI6ICJzb21ldGhpbmciCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMDgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS4wNCwKICAgICAgICAgICAgIndvcmQiOiAiaSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yNCwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA1LjE4LAogICAgICAgICAgICAid29yZCI6ICJjYW5ub3QiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMjYsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS40OCwKICAgICAgICAgICAgIndvcmQiOiAiYWxsb3ciCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMDgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS44LAogICAgICAgICAgICAid29yZCI6ICJ0byIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA1Ljk0LAogICAgICAgICAgICAid29yZCI6ICJoYXZlIgogICAgICAgIH0KICAgIF0KfQo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq -S '.transcripts[0]'; rm out 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq -S --tab '.transcripts[0]'; rm out 1>$GOT
     - run: |
-        base64 -d <<<'ewogICJjb25maWRlbmNlIjogLTg1LjcwMjg2NTYwMDU4NTk0LAogICJ3b3JkcyI6IFsKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xLAogICAgICAic3RhcnRfdGltZSI6IDAuMjgsCiAgICAgICJ3b3JkIjogImkiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjE2LAogICAgICAic3RhcnRfdGltZSI6IDAuNDIsCiAgICAgICJ3b3JkIjogImtub3ciCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAic3RhcnRfdGltZSI6IDAuNjIsCiAgICAgICJ3b3JkIjogInRoYXQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAic3RhcnRfdGltZSI6IDAuOCwKICAgICAgIndvcmQiOiAieW91IgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xOCwKICAgICAgInN0YXJ0X3RpbWUiOiAwLjk4LAogICAgICAid29yZCI6ICJhbmQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAic3RhcnRfdGltZSI6IDEuMiwKICAgICAgIndvcmQiOiAiZnJhbmsiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjE4LAogICAgICAic3RhcnRfdGltZSI6IDEuNTYsCiAgICAgICJ3b3JkIjogIndlcmUiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAic3RhcnRfdGltZSI6IDEuNzgsCiAgICAgICJ3b3JkIjogInBsYW5uaW5nIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xMiwKICAgICAgInN0YXJ0X3RpbWUiOiAyLjEsCiAgICAgICJ3b3JkIjogInRvIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC41NiwKICAgICAgInN0YXJ0X3RpbWUiOiAyLjMsCiAgICAgICJ3b3JkIjogImRpc2Nvbm5lY3QiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjYsCiAgICAgICJzdGFydF90aW1lIjogMi45NCwKICAgICAgIndvcmQiOiAibWUiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICJzdGFydF90aW1lIjogMy42NCwKICAgICAgIndvcmQiOiAiYW5kIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xLAogICAgICAic3RhcnRfdGltZSI6IDMuODIsCiAgICAgICJ3b3JkIjogImknbSIKICAgIH0sCiAgICB7CiAgICAgICJkdXJhdGlvbiI6IDAuMzIsCiAgICAgICJzdGFydF90aW1lIjogNCwKICAgICAgIndvcmQiOiAiYWZyYWlkIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4yLAogICAgICAic3RhcnRfdGltZSI6IDQuMzgsCiAgICAgICJ3b3JkIjogInRoYXQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjMsCiAgICAgICJzdGFydF90aW1lIjogNC42MiwKICAgICAgIndvcmQiOiAic29tZXRoaW5nIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4wOCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjA0LAogICAgICAid29yZCI6ICJpIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4yNCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjE4LAogICAgICAid29yZCI6ICJjYW5ub3QiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI2LAogICAgICAic3RhcnRfdGltZSI6IDUuNDgsCiAgICAgICJ3b3JkIjogImFsbG93IgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4wOCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjgsCiAgICAgICJ3b3JkIjogInRvIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgInN0YXJ0X3RpbWUiOiA1Ljk0LAogICAgICAid29yZCI6ICJoYXZlIgogICAgfQogIF0KfQo=' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -89,11 +93,12 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQpwcG8KdGVuc29yYm9hcmQK' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& tensorboard --logdir . 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0 && tensorboard --logdir tensorboard 1>$GOT
     - run: |
-        base64 -d <<<'RG9ja2VyZmlsZQpIb3BwZXItdjMKSG9wcGVyLXYzXzEK' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -111,11 +116,12 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$GOT
     - run: |
-        base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$EXPECTED
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -133,11 +139,12 @@ jobs:
     - uses: actions/checkout@v2
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
-        echo EXPECTED=$(mktemp) >>$GITHUB_ENV
-    - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$GOT
-    - run: |
+        EXPECTED=$(mktemp)
         base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' 1>$GOT
+    - run: |
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
