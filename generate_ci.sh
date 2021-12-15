@@ -58,8 +58,12 @@ verifications() {
 
 	for AS in $(cat_from "$l" "$f" | grep -oE '^## AS [^ :]+:' | sed 's%## AS %%g;s%:%%g'); do
 		grep -qE "^FROM scratch AS $AS$" "$f" || (echo "$f: Missing target $AS" && exit 1)
-		# TODO: ensure all scratch/out targets are described
 	done
+	grep -oE '^FROM scratch AS out-[^-]+$' "$f" \
+	| sed 's%FROM scratch AS out-%%g' \
+	| while read -r AS; do
+		grep -qE "^## AS out-$AS:" "$f" || (echo "$f: Missing target description for $AS" && exit 1)
+	done || true
 
 	Dockerfile_ARGs "$f" \
 	| while read -r ARG; do
@@ -73,7 +77,7 @@ Usages() {
 	local out="$1"; shift
 	for n in $(cat_from "$l" "$f" | grep -nE '^## Usage:' | cut -d: -f1); do
 		lusage=$(( l + n ))
-		usage=$(cat_from "$(( lusage - 1))" "$f" | head -n1 | sed 's%## %%g')
+		usage=$(cat_from "$(( lusage - 1))" "$f" | head -n1 | sed 's%## Usage:%%g')
 		cmd=$(cat_from "$lusage" "$f" | head -n1 | cut -c3-)
 		next=$(cat_from "$lusage" "$f" | grep -nE '^## Usage:' | cut -d: -f1 | head -n1 || true)
 		expecting=$(cat_from "$(( lusage + 1 ))" "$f" | grep -vF '# ```' | cut -c3- | base64 | tr -d '\n')
@@ -81,12 +85,18 @@ Usages() {
 			expecting=$(cat_from "$(( lusage + 1 ))" "$f" | grep -vF '# ```' | head -n "$(( next - 1 - 1 ))" | cut -c3- | base64 | tr -d '\n')
 		fi
 cat <<EOF >>"$out"
-    - name: $usage
-      run: |
+    - run: |
         got=\$(mktemp); expected=\$(mktemp)
         $cmd 1>\$got
         base64 -d <<<'$expecting' >\$expected
         diff --width=150 -y \$expected \$got
+EOF
+	if [[ -n "$usage" ]]; then
+cat <<EOF >>"$out"
+    - name: "$usage"
+EOF
+	fi
+cat <<EOF >>"$out"
     - run: git status -sb && [[ 1 -eq \$(git status -sb --name-only | wc -l) ]]
 
 EOF
