@@ -53,14 +53,11 @@ verifications() {
 
 	cat_from "$l" "$f" | grep -qE '^## Usage:' || (echo "$f: Missing Usage entry" && exit 1)
 
-	# TODO: ensure --build-arg usage only mentions valid & non-default Dockerfile_ARGs
-# Usages... git grep -oE '[-][-]build-arg [^ =]+[ =]' | sed 's%--build-arg%%g;s% %%g;s%=%%g'
-
-	for AS in $(cat_from "$l" "$f" | grep -oE '^## AS [^ :]+:' | sed 's%## AS %%g;s%:%%g'); do
+	cat_from "$l" "$f" | grep -oE '^## AS [^ :]+:' | sed 's%## AS %%g;s%:%%g' \
+	| while read -r AS; do
 		grep -qE "^FROM scratch AS $AS$" "$f" || (echo "$f: Missing target $AS" && exit 1)
-	done
-	grep -oE '^FROM scratch AS out-[^-]+$' "$f" \
-	| sed 's%FROM scratch AS out-%%g' \
+	done || true
+	grep -oE '^FROM scratch AS out-[^-]+$' "$f" | sed 's%FROM scratch AS out-%%g' \
 	| while read -r AS; do
 		grep -qE "^## AS out-$AS:" "$f" || (echo "$f: Missing target description for $AS" && exit 1)
 	done || true
@@ -68,6 +65,10 @@ verifications() {
 	Dockerfile_ARGs "$f" \
 	| while read -r ARG; do
 		cat_from "$l" "$f" | grep -qE '^## ARG '"$ARG"': ' || (echo "$f: Missing ARG description for $ARG" && exit 1)
+	done
+	cat_from "$l" "$f" | grep -oE '[-][-]build-arg [^ =]+[ =]' | sed 's%--build-arg%%g;s% %%g;s%=%%g' | sort -u \
+	| while read -r ARG; do
+		grep -qE "^## ARG $ARG[:=]" "$f" || (echo "$f: Unexpected usage of ARG $ARG" && exit 1)
 	done
 }
 
@@ -93,7 +94,7 @@ cat <<EOF >>"$out"
 EOF
 	if [[ -n "$usage" ]]; then
 cat <<EOF >>"$out"
-    - name: "$usage"
+      name: "$usage"
 EOF
 	fi
 cat <<EOF >>"$out"
@@ -105,7 +106,6 @@ EOF
 
 for d in */; do
 	d=${d::-1}
-	[[ $d = torrentdl ]] && continue # FIXME
 	echo "$d"
 
 	f="$d"/Dockerfile

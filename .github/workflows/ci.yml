@@ -25,7 +25,7 @@ jobs:
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$got
         base64 -d <<<'N2QwM2M3NDVlZDU5MjA4ODUzM2Q4Zjc4Cg==' >$expected
         diff --width=150 -y $expected $got
-    - name: " with some JPEG"
+      name: " with some JPEG"
     - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
 
     - run: |
@@ -33,7 +33,7 @@ jobs:
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out 1>$got
         base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$expected
         diff --width=150 -y $expected $got
-    - name: " pre-image example..."
+      name: " pre-image example..."
     - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
 
     - run: |
@@ -41,7 +41,7 @@ jobs:
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860810-f414259a-3253-43e3-9e8e-a0ef78372233.png - <Dockerfile && cat out 1>$got
         base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$expected
         diff --width=150 -y $expected $got
-    - name: " ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387"
+      name: " ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387"
     - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
 
 
