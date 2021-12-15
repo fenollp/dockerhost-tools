@@ -71,8 +71,14 @@ FROM scratch
 COPY --from=product /root/code/rl_zoo/logs/* /
 
 
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' - <Dockerfile && ls -1 . #&& tensorboard --logdir .
-# ...
+## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
+## ARG ARGs=: $SEPARATOR-separated CLI arguments
+## ARG ALGO_NAME=td3: Algorithm name given to train.py --algo
+## ARG ENV_ID=Hopper-v3: Environment ID given to train.py --env
+## ARG SB3_ZOO_COMMIT=master: Commit hash for requested https://github.com/DLR-RM/rl-baselines3-zoo/commits
+## ARG MUJOCO_VERSION=mujoco210-linux-x86_64: Version of MuJoCo to use, from https://mujoco.org/download
+## Usage:
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& tensorboard --logdir .
 # Dockerfile
 # Hopper-v3
 # Hopper-v3_1

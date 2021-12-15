@@ -84,13 +84,11 @@ COPY --from=product-gpu /out /
 FROM out-cpu
 
 
-# Targets:
-# * out-cpu: CPU-only inference version
-# * out-gpu: GPU-only inference version (CUDA) TODO: install requirements + bridge to nVidia HW.
-# Args:
-# * VERSION: SemVer of DeepSpeech
-# * AUDIO_URL: URL of WAV file to run inference on. Is downloaded using Dockerfile's ADD statement.
-# Usage:
+## AS out-cpu: CPU-only inference version
+## AS out-gpu: GPU-only inference version (CUDA) TODO: install requirements + bridge to nVidia HW.
+## ARG VERSION=0.9.3: SemVer of DeepSpeech
+## ARG AUDIO_URL: URL of WAV file to run inference on. Is downloaded using Dockerfile's ADD statement.
+## Usage:
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq '.transcripts[0]'; rm out
 # ```json
 # {

@@ -1,0 +1,126 @@
+name: Build
+on:
+  push: {}
+jobs:
+  metaci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./generate_ci.sh
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+  apple-neural-hash:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apple-neural-hash
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Usage: with some JPEG
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$got
+        base64 -d <<<'N2QwM2M3NDVlZDU5MjA4ODUzM2Q4Zjc4Cg==' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+    - name: Usage: pre-image example...
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out 1>$got
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+    - name: Usage: ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860810-f414259a-3253-43e3-9e8e-a0ef78372233.png - <Dockerfile && cat out 1>$got
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+
+  deepspeech:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deepspeech
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Usage:
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq '.transcripts[0]'; rm out 1>$got
+        base64 -d <<<'ewogICJjb25maWRlbmNlIjogLTg1LjcwMjg2NTYwMDU4NTk0LAogICJ3b3JkcyI6IFsKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xLAogICAgICAic3RhcnRfdGltZSI6IDAuMjgsCiAgICAgICJ3b3JkIjogImkiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjE2LAogICAgICAic3RhcnRfdGltZSI6IDAuNDIsCiAgICAgICJ3b3JkIjogImtub3ciCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAic3RhcnRfdGltZSI6IDAuNjIsCiAgICAgICJ3b3JkIjogInRoYXQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAic3RhcnRfdGltZSI6IDAuOCwKICAgICAgIndvcmQiOiAieW91IgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xOCwKICAgICAgInN0YXJ0X3RpbWUiOiAwLjk4LAogICAgICAid29yZCI6ICJhbmQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAic3RhcnRfdGltZSI6IDEuMiwKICAgICAgIndvcmQiOiAiZnJhbmsiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjE4LAogICAgICAic3RhcnRfdGltZSI6IDEuNTYsCiAgICAgICJ3b3JkIjogIndlcmUiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAic3RhcnRfdGltZSI6IDEuNzgsCiAgICAgICJ3b3JkIjogInBsYW5uaW5nIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xMiwKICAgICAgInN0YXJ0X3RpbWUiOiAyLjEsCiAgICAgICJ3b3JkIjogInRvIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC41NiwKICAgICAgInN0YXJ0X3RpbWUiOiAyLjMsCiAgICAgICJ3b3JkIjogImRpc2Nvbm5lY3QiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjYsCiAgICAgICJzdGFydF90aW1lIjogMi45NCwKICAgICAgIndvcmQiOiAibWUiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICJzdGFydF90aW1lIjogMy42NCwKICAgICAgIndvcmQiOiAiYW5kIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xLAogICAgICAic3RhcnRfdGltZSI6IDMuODIsCiAgICAgICJ3b3JkIjogImknbSIKICAgIH0sCiAgICB7CiAgICAgICJkdXJhdGlvbiI6IDAuMzIsCiAgICAgICJzdGFydF90aW1lIjogNCwKICAgICAgIndvcmQiOiAiYWZyYWlkIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4yLAogICAgICAic3RhcnRfdGltZSI6IDQuMzgsCiAgICAgICJ3b3JkIjogInRoYXQiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjMsCiAgICAgICJzdGFydF90aW1lIjogNC42MiwKICAgICAgIndvcmQiOiAic29tZXRoaW5nIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4wOCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjA0LAogICAgICAid29yZCI6ICJpIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4yNCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjE4LAogICAgICAid29yZCI6ICJjYW5ub3QiCiAgICB9LAogICAgewogICAgICAiZHVyYXRpb24iOiAwLjI2LAogICAgICAic3RhcnRfdGltZSI6IDUuNDgsCiAgICAgICJ3b3JkIjogImFsbG93IgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4wOCwKICAgICAgInN0YXJ0X3RpbWUiOiA1LjgsCiAgICAgICJ3b3JkIjogInRvIgogICAgfSwKICAgIHsKICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgInN0YXJ0X3RpbWUiOiA1Ljk0LAogICAgICAid29yZCI6ICJoYXZlIgogICAgfQogIF0KfQo=' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+
+  reinforcement-learning-gym-stable-baselines3:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: reinforcement-learning-gym-stable-baselines3
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Usage:
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& tensorboard --logdir . 1>$got
+        base64 -d <<<'RG9ja2VyZmlsZQpIb3BwZXItdjMKSG9wcGVyLXYzXzEK' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+
+  youtube-dl:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: youtube-dl
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Usage:
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$got
+        base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+
+
+  yt-dlp:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: yt-dlp
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - name: Usage:
+      run: |
+        got=$(mktemp); expected=$(mktemp)
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$got
+        base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$expected
+        diff --width=150 -y $expected $got
+    - run: git status -sb && [[ 1 -eq $(git status -sb --name-only | wc -l) ]]
+

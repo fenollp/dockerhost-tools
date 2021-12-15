@@ -33,8 +33,10 @@ RUN \
 FROM scratch
 COPY --from=product /app/* /
 
+## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
+## ARG ARGs: $SEPARATOR-separated CLI arguments
+## Usage:
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 .
-# ...
 # Dockerfile
 # 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4'
 # 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4'
