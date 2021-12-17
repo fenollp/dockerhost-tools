@@ -1,0 +1,190 @@
+name: Build
+on:
+  push: {}
+jobs:
+  metaci:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: ./generate_ci.sh
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+  apple-neural-hash:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apple-neural-hash
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'MzQ4N2YzZTM4ZDdlNmU1M2QxMmEwZTIyCg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$GOT
+      name: " with some JPEG"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out 1>$GOT
+      name: " pre-image example..."
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'NTlhMzRlYWJlMzE5MTBhYmZiMDZmMzA4Cg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860810-f414259a-3253-43e3-9e8e-a0ef78372233.png - <Dockerfile && cat out 1>$GOT
+      name: " ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
+  deepspeech:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deepspeech
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'WwoJewoJCSJkdXJhdGlvbiI6IDAuMSwKCQkic3RhcnRfdGltZSI6IDAuMjgsCgkJIndvcmQiOiAiaSIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4xNiwKCQkic3RhcnRfdGltZSI6IDAuNDIsCgkJIndvcmQiOiAia25vdyIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4xMiwKCQkic3RhcnRfdGltZSI6IDAuNjIsCgkJIndvcmQiOiAidGhhdCIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4xMiwKCQkic3RhcnRfdGltZSI6IDAuOCwKCQkid29yZCI6ICJ5b3UiCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMTgsCgkJInN0YXJ0X3RpbWUiOiAwLjk4LAoJCSJ3b3JkIjogImFuZCIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4yOCwKCQkic3RhcnRfdGltZSI6IDEuMiwKCQkid29yZCI6ICJmcmFuayIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4xOCwKCQkic3RhcnRfdGltZSI6IDEuNTYsCgkJIndvcmQiOiAid2VyZSIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4yOCwKCQkic3RhcnRfdGltZSI6IDEuNzgsCgkJIndvcmQiOiAicGxhbm5pbmciCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMTIsCgkJInN0YXJ0X3RpbWUiOiAyLjEsCgkJIndvcmQiOiAidG8iCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuNTYsCgkJInN0YXJ0X3RpbWUiOiAyLjMsCgkJIndvcmQiOiAiZGlzY29ubmVjdCIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC42LAoJCSJzdGFydF90aW1lIjogMi45NCwKCQkid29yZCI6ICJtZSIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4xLAoJCSJzdGFydF90aW1lIjogMy42NCwKCQkid29yZCI6ICJhbmQiCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMSwKCQkic3RhcnRfdGltZSI6IDMuODIsCgkJIndvcmQiOiAiaSdtIgoJfSwKCXsKCQkiZHVyYXRpb24iOiAwLjMyLAoJCSJzdGFydF90aW1lIjogNCwKCQkid29yZCI6ICJhZnJhaWQiCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMiwKCQkic3RhcnRfdGltZSI6IDQuMzgsCgkJIndvcmQiOiAidGhhdCIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4zLAoJCSJzdGFydF90aW1lIjogNC42MiwKCQkid29yZCI6ICJzb21ldGhpbmciCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMDgsCgkJInN0YXJ0X3RpbWUiOiA1LjA0LAoJCSJ3b3JkIjogImkiCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMjQsCgkJInN0YXJ0X3RpbWUiOiA1LjE4LAoJCSJ3b3JkIjogImNhbm5vdCIKCX0sCgl7CgkJImR1cmF0aW9uIjogMC4yNiwKCQkic3RhcnRfdGltZSI6IDUuNDgsCgkJIndvcmQiOiAiYWxsb3ciCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMDgsCgkJInN0YXJ0X3RpbWUiOiA1LjgsCgkJIndvcmQiOiAidG8iCgl9LAoJewoJCSJkdXJhdGlvbiI6IDAuMTYsCgkJInN0YXJ0X3RpbWUiOiA1Ljk0LAoJCSJ3b3JkIjogImhhdmUiCgl9Cl0K' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && ( cat out | jq -S --tab '.transcripts[0].words' && rm out ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
+  reinforcement-learning-gym-stable-baselines3:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: reinforcement-learning-gym-stable-baselines3
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQpwcG8KdGVuc29yYm9hcmQK' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ( ls -1 . && rm -r ppo tensorboard ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
+  youtube-dl:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: youtube-dl
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg PIP_PACKAGE=git+https://github.com/ytdl-org/youtube-dl@refs/pull/30184/merge --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
+  yt-dlp:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: yt-dlp
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+

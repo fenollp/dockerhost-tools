@@ -23,14 +23,13 @@ RUN \
 FROM scratch
 COPY --from=product /out /
 
+## ARG IMAGE_URL: URL of image (PNG,JPEG,...) file to run inference on. Is downloaded using Dockerfile's ADD statement.
+## Usage: with some JPEG
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out
-#  ...
-# 7d03c745ed592088533d8f78
-
-# Pre-image example
-# https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387
+# 3487f3e38d7e6e53d12a0e22
+## Usage: pre-image example...
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out
-#  ...
 # 59a34eabe31910abfb06f308
+## Usage: ...from https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/1#issue-973388387
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860810-f414259a-3253-43e3-9e8e-a0ef78372233.png - <Dockerfile && cat out
 # 59a34eabe31910abfb06f308
