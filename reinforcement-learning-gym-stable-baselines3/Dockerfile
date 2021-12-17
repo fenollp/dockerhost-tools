@@ -20,8 +20,9 @@ RUN \
 
 
 FROM scratch AS mujoco-tarball
-ARG MUJOCO_VERSION=mujoco210-linux-x86_64
-ADD https://mujoco.org/download/$MUJOCO_VERSION.tar.gz /tarball.tar.gz
+ARG MUJOCO_TARGZ_URL=https://github.com/deepmind/mujoco/releases/download/2.1.0/mujoco210-linux-x86_64.tar.gz
+# ARG MUJOCO_TARGZ_URL=https://github.com/deepmind/mujoco/releases/download/2.1.1/mujoco-2.1.1-linux-x86_64.tar.gz
+ADD $MUJOCO_TARGZ_URL /tarball.tar.gz
 
 FROM alpine AS mujoco
 WORKDIR /w
@@ -76,7 +77,7 @@ COPY --from=product /root/code/rl_zoo/logs /
 ## ARG ALGO_NAME=ppo: Algorithm name given to train.py --algo
 ## ARG ENV_ID=CartPole-v1: Environment ID given to train.py --env
 ## ARG SB3_ZOO_COMMIT=111d03c4ce728fff51d4b1c10355ea612bc8d456: Commit hash for requested https://github.com/DLR-RM/rl-baselines3-zoo/commits
-## ARG MUJOCO_VERSION=mujoco210-linux-x86_64: Version of MuJoCo to use, from https://mujoco.org/download
+## ARG MUJOCO_TARGZ_URL=https://github.com/deepmind/mujoco/releases/download/2.1.0/mujoco210-linux-x86_64.tar.gz: Version of MuJoCo to use, from https://mujoco.org/download
 ## Usage:
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0 && tensorboard --logdir tensorboard
 # Dockerfile

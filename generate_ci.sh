@@ -42,7 +42,8 @@ cat_from() {
 
 Dockerfile_ARGs() {
 	local f="$1"; shift
-	prev=''; grep '^ARG ' "$f" | cut -d: -f2 | cut -c5- \
+	local prev=''
+	grep '^ARG ' "$f" | cut -c5- \
 	| sort -ur \
 	| while read -r var; do case "$prev" in "$var"=*) ;; *) echo "$var";; esac; prev=$var; done
 }
