@@ -125,6 +125,7 @@ for d in */; do
 cat <<EOF >>"$out"
 
   ${d}:
+    needs: metaci
     runs-on: ubuntu-latest
     defaults:
       run:
