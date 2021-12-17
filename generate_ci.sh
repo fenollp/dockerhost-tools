@@ -106,6 +106,7 @@ cat <<EOF >>"$out"
         cat -A \$EXPECTED
         echo got:
         cat -A \$GOT
+        echo diff:
         diff --width=150 -y \$EXPECTED \$GOT
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 

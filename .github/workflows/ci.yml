@@ -33,6 +33,7 @@ jobs:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -49,6 +50,7 @@ jobs:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -65,6 +67,7 @@ jobs:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -86,12 +89,13 @@ jobs:
         base64 -d <<<'ewogICAgImNvbmZpZGVuY2UiOiAtODUuNzAyODY1NjAwNTg1OTQsCiAgICAid29yZHMiOiBbCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC4yOCwKICAgICAgICAgICAgIndvcmQiOiAiaSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAwLjQyLAogICAgICAgICAgICAid29yZCI6ICJrbm93IgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEyLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDAuNjIsCiAgICAgICAgICAgICJ3b3JkIjogInRoYXQiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTIsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC44LAogICAgICAgICAgICAid29yZCI6ICJ5b3UiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMC45OCwKICAgICAgICAgICAgIndvcmQiOiAiYW5kIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjI4LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDEuMiwKICAgICAgICAgICAgIndvcmQiOiAiZnJhbmsiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMTgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMS41NiwKICAgICAgICAgICAgIndvcmQiOiAid2VyZSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yOCwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAxLjc4LAogICAgICAgICAgICAid29yZCI6ICJwbGFubmluZyIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xMiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiAyLjEsCiAgICAgICAgICAgICJ3b3JkIjogInRvIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjU2LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDIuMywKICAgICAgICAgICAgIndvcmQiOiAiZGlzY29ubmVjdCIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC42LAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDIuOTQsCiAgICAgICAgICAgICJ3b3JkIjogIm1lIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMy42NCwKICAgICAgICAgICAgIndvcmQiOiAiYW5kIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjEsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogMy44MiwKICAgICAgICAgICAgIndvcmQiOiAiaSdtIgogICAgICAgIH0sCiAgICAgICAgewogICAgICAgICAgICAiZHVyYXRpb24iOiAwLjMyLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDQsCiAgICAgICAgICAgICJ3b3JkIjogImFmcmFpZCIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yLAogICAgICAgICAgICAic3RhcnRfdGltZSI6IDQuMzgsCiAgICAgICAgICAgICJ3b3JkIjogInRoYXQiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMywKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA0LjYyLAogICAgICAgICAgICAid29yZCI6ICJzb21ldGhpbmciCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMDgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS4wNCwKICAgICAgICAgICAgIndvcmQiOiAiaSIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4yNCwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA1LjE4LAogICAgICAgICAgICAid29yZCI6ICJjYW5ub3QiCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMjYsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS40OCwKICAgICAgICAgICAgIndvcmQiOiAiYWxsb3ciCiAgICAgICAgfSwKICAgICAgICB7CiAgICAgICAgICAgICJkdXJhdGlvbiI6IDAuMDgsCiAgICAgICAgICAgICJzdGFydF90aW1lIjogNS44LAogICAgICAgICAgICAid29yZCI6ICJ0byIKICAgICAgICB9LAogICAgICAgIHsKICAgICAgICAgICAgImR1cmF0aW9uIjogMC4xNiwKICAgICAgICAgICAgInN0YXJ0X3RpbWUiOiA1Ljk0LAogICAgICAgICAgICAid29yZCI6ICJoYXZlIgogICAgICAgIH0KICAgIF0KfQo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && cat out | jq -S --tab '.transcripts[0]'; rm out 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && ( cat out | jq -S --tab '.transcripts[0]' && rm out ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -113,12 +117,13 @@ jobs:
         base64 -d <<<'RG9ja2VyZmlsZQpwcG8KdGVuc29yYm9hcmQK' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0 && tensorboard --logdir tensorboard 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ( ls -1 . && rm ppo tensorboard ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -137,15 +142,16 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$EXPECTED
+        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg PIP_PACKAGE=git+https://github.com/ytdl-org/youtube-dl@refs/pull/30184/merge --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg PIP_PACKAGE=git+https://github.com/ytdl-org/youtube-dl@refs/pull/30184/merge --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
@@ -167,12 +173,13 @@ jobs:
         base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
         echo got:
         cat -A $GOT
+        echo diff:
         diff --width=150 -y $EXPECTED $GOT
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 

@@ -78,8 +78,10 @@ COPY --from=product /root/code/rl_zoo/logs /
 ## ARG ENV_ID=CartPole-v1: Environment ID given to train.py --env
 ## ARG SB3_ZOO_COMMIT=111d03c4ce728fff51d4b1c10355ea612bc8d456: Commit hash for requested https://github.com/DLR-RM/rl-baselines3-zoo/commits
 ## ARG MUJOCO_TARGZ_URL=https://github.com/deepmind/mujoco/releases/download/2.1.0/mujoco210-linux-x86_64.tar.gz: Version of MuJoCo to use, from https://mujoco.org/download
+# Visual evaluation with: python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0
+# Graphs: tensorboard --logdir tensorboard
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ls -1 . #&& python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0 && tensorboard --logdir tensorboard
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ( ls -1 . && rm ppo tensorboard )
 # Dockerfile
 # ppo
 # tensorboard
