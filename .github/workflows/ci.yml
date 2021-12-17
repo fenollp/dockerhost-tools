@@ -140,7 +140,7 @@ jobs:
         base64 -d <<<'RG9ja2VyZmlsZQonRXJsYW5nIC0gVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0JwonUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNCcK' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg PIP_PACKAGE=git+https://github.com/ytdl-org/youtube-dl@refs/pull/30184/merge --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ls -1 . 1>$GOT
     - run: |
     		echo expected:
     		cat -A $EXPECTED
