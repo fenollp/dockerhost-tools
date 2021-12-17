@@ -81,7 +81,7 @@ COPY --from=product /root/code/rl_zoo/logs /
 # Visual evaluation with: python enjoy.py --algo ppo --env CartPole-v1 --folder . --exp-id 0
 # Graphs: tensorboard --logdir tensorboard
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ( ls -1 . && rm ppo tensorboard )
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='-n 100' --progress=plain - <Dockerfile && ( ls -1 . && rm -r ppo tensorboard )
 # Dockerfile
 # ppo
 # tensorboard

@@ -92,7 +92,7 @@ FROM out-cpu
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && ( cat out | jq -S --tab '.transcripts[0]' && rm out )
 # ```json
 # {
-# 	"confidence": -85.70286560058594,
+# 	"confidence": -85.70285034179688,
 # 	"words": [
 # 		{
 # 			"duration": 0.1,
