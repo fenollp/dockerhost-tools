@@ -102,10 +102,10 @@ EOF
 	fi
 cat <<EOF >>"$out"
     - run: |
-    		echo expected:
-    		cat -A \$EXPECTED
-    		echo got:
-    		cat -A \$GOT
+        echo expected:
+        cat -A \$EXPECTED
+        echo got:
+        cat -A \$GOT
         diff --width=150 -y \$EXPECTED \$GOT
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 
