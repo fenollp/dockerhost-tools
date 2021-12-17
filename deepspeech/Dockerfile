@@ -92,113 +92,113 @@ FROM out-cpu
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg AUDIO_URL=https://www.wavsource.com/snds_2020-10-01_3728627494378403/movies/2001/disconnect_me.wav - <Dockerfile && ( cat out | jq -S --tab '.transcripts[0]' && rm out )
 # ```json
 # {
-#     "confidence": -85.70286560058594,
-#     "words": [
-#         {
-#             "duration": 0.1,
-#             "start_time": 0.28,
-#             "word": "i"
-#         },
-#         {
-#             "duration": 0.16,
-#             "start_time": 0.42,
-#             "word": "know"
-#         },
-#         {
-#             "duration": 0.12,
-#             "start_time": 0.62,
-#             "word": "that"
-#         },
-#         {
-#             "duration": 0.12,
-#             "start_time": 0.8,
-#             "word": "you"
-#         },
-#         {
-#             "duration": 0.18,
-#             "start_time": 0.98,
-#             "word": "and"
-#         },
-#         {
-#             "duration": 0.28,
-#             "start_time": 1.2,
-#             "word": "frank"
-#         },
-#         {
-#             "duration": 0.18,
-#             "start_time": 1.56,
-#             "word": "were"
-#         },
-#         {
-#             "duration": 0.28,
-#             "start_time": 1.78,
-#             "word": "planning"
-#         },
-#         {
-#             "duration": 0.12,
-#             "start_time": 2.1,
-#             "word": "to"
-#         },
-#         {
-#             "duration": 0.56,
-#             "start_time": 2.3,
-#             "word": "disconnect"
-#         },
-#         {
-#             "duration": 0.6,
-#             "start_time": 2.94,
-#             "word": "me"
-#         },
-#         {
-#             "duration": 0.1,
-#             "start_time": 3.64,
-#             "word": "and"
-#         },
-#         {
-#             "duration": 0.1,
-#             "start_time": 3.82,
-#             "word": "i'm"
-#         },
-#         {
-#             "duration": 0.32,
-#             "start_time": 4,
-#             "word": "afraid"
-#         },
-#         {
-#             "duration": 0.2,
-#             "start_time": 4.38,
-#             "word": "that"
-#         },
-#         {
-#             "duration": 0.3,
-#             "start_time": 4.62,
-#             "word": "something"
-#         },
-#         {
-#             "duration": 0.08,
-#             "start_time": 5.04,
-#             "word": "i"
-#         },
-#         {
-#             "duration": 0.24,
-#             "start_time": 5.18,
-#             "word": "cannot"
-#         },
-#         {
-#             "duration": 0.26,
-#             "start_time": 5.48,
-#             "word": "allow"
-#         },
-#         {
-#             "duration": 0.08,
-#             "start_time": 5.8,
-#             "word": "to"
-#         },
-#         {
-#             "duration": 0.16,
-#             "start_time": 5.94,
-#             "word": "have"
-#         }
-#     ]
+# 	"confidence": -85.70286560058594,
+# 	"words": [
+# 		{
+# 			"duration": 0.1,
+# 			"start_time": 0.28,
+# 			"word": "i"
+# 		},
+# 		{
+# 			"duration": 0.16,
+# 			"start_time": 0.42,
+# 			"word": "know"
+# 		},
+# 		{
+# 			"duration": 0.12,
+# 			"start_time": 0.62,
+# 			"word": "that"
+# 		},
+# 		{
+# 			"duration": 0.12,
+# 			"start_time": 0.8,
+# 			"word": "you"
+# 		},
+# 		{
+# 			"duration": 0.18,
+# 			"start_time": 0.98,
+# 			"word": "and"
+# 		},
+# 		{
+# 			"duration": 0.28,
+# 			"start_time": 1.2,
+# 			"word": "frank"
+# 		},
+# 		{
+# 			"duration": 0.18,
+# 			"start_time": 1.56,
+# 			"word": "were"
+# 		},
+# 		{
+# 			"duration": 0.28,
+# 			"start_time": 1.78,
+# 			"word": "planning"
+# 		},
+# 		{
+# 			"duration": 0.12,
+# 			"start_time": 2.1,
+# 			"word": "to"
+# 		},
+# 		{
+# 			"duration": 0.56,
+# 			"start_time": 2.3,
+# 			"word": "disconnect"
+# 		},
+# 		{
+# 			"duration": 0.6,
+# 			"start_time": 2.94,
+# 			"word": "me"
+# 		},
+# 		{
+# 			"duration": 0.1,
+# 			"start_time": 3.64,
+# 			"word": "and"
+# 		},
+# 		{
+# 			"duration": 0.1,
+# 			"start_time": 3.82,
+# 			"word": "i'm"
+# 		},
+# 		{
+# 			"duration": 0.32,
+# 			"start_time": 4,
+# 			"word": "afraid"
+# 		},
+# 		{
+# 			"duration": 0.2,
+# 			"start_time": 4.38,
+# 			"word": "that"
+# 		},
+# 		{
+# 			"duration": 0.3,
+# 			"start_time": 4.62,
+# 			"word": "something"
+# 		},
+# 		{
+# 			"duration": 0.08,
+# 			"start_time": 5.04,
+# 			"word": "i"
+# 		},
+# 		{
+# 			"duration": 0.24,
+# 			"start_time": 5.18,
+# 			"word": "cannot"
+# 		},
+# 		{
+# 			"duration": 0.26,
+# 			"start_time": 5.48,
+# 			"word": "allow"
+# 		},
+# 		{
+# 			"duration": 0.08,
+# 			"start_time": 5.8,
+# 			"word": "to"
+# 		},
+# 		{
+# 			"duration": 0.16,
+# 			"start_time": 5.94,
+# 			"word": "have"
+# 		}
+# 	]
 # }
 # ```
