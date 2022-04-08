@@ -24,7 +24,7 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'MzQ4N2YzZTM4ZDdlNmU1M2QxMmEwZTIyCg==' >$EXPECTED
+        base64 -d <<<'NTI5OTYxYjQ4NDQyMWQwNTQ3MjQzZGQ1Cg==' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$GOT
@@ -149,7 +149,7 @@ jobs:
         base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg PIP_PACKAGE=git+https://github.com/ytdl-org/youtube-dl@refs/pull/30184/merge --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
@@ -178,7 +178,7 @@ jobs:
         base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4 -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
