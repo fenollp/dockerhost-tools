@@ -73,6 +73,70 @@ jobs:
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
 
+  cargo-install:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: cargo-install
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogTGFuZ3VhZ2UgICAgICAgICAgICBGaWxlcyAgICAgICAgTGluZXMgICAgICAgICBDb2RlICAgICBDb21tZW50cyAgICAgICBCbGFua3MKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogRG9ja2VyZmlsZSAgICAgICAgICAgICAgMSAgICAgICAgICAgNjIgICAgICAgICAgIDMzICAgICAgICAgICAyMyAgICAgICAgICAgIDYKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogVG90YWwgICAgICAgICAgICAgICAgICAgMSAgICAgICAgICAgNjIgICAgICAgICAgIDMzICAgICAgICAgICAyMyAgICAgICAgICAgIDYKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=tokei --build-arg VERSION=12.1.2 - <Dockerfile && ( ./tokei && rm 'tokei' ) 1>$GOT
+      name: " some binary crate"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'Y2FyZ28taW5zdGFsbArilJzilIDilIAgRG9ja2VyZmlsZQrilJTilIDilIAgdHJlZQo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=termtree --build-arg VERSION=0.4.0 --build-arg ARGs='--example tree --target x86_64-unknown-linux-musl' - <Dockerfile && ( ./tree && rm 'tree' ) 1>$GOT
+      name: " an example with a MUSL target"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'ZGllc2VsIDIuMC4wCg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=diesel_cli --build-arg VERSION=2.0.0 --build-arg ARGs='--no-default-features --features postgres' - <Dockerfile && ( ./diesel --version && rm 'diesel' ) 1>$GOT
+      name: " dynamically linked and setting some features"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
   deepspeech:
     needs: metaci
     runs-on: ubuntu-latest
