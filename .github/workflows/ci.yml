@@ -24,10 +24,10 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'NTI5OTYxYjQ4NDQyMWQwNTQ3MjQzZGQ1Cg==' >$EXPECTED
+        base64 -d <<<'IDEgIDEgMjUgb3V0Cg==' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && wc out 1>$GOT
       name: " with some JPEG"
     - run: |
         echo expected:
@@ -88,7 +88,7 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogTGFuZ3VhZ2UgICAgICAgICAgICBGaWxlcyAgICAgICAgTGluZXMgICAgICAgICBDb2RlICAgICBDb21tZW50cyAgICAgICBCbGFua3MKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogRG9ja2VyZmlsZSAgICAgICAgICAgICAgMSAgICAgICAgICAgNjIgICAgICAgICAgIDMzICAgICAgICAgICAyMyAgICAgICAgICAgIDYKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogVG90YWwgICAgICAgICAgICAgICAgICAgMSAgICAgICAgICAgNjIgICAgICAgICAgIDMzICAgICAgICAgICAyMyAgICAgICAgICAgIDYKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo=' >$EXPECTED
+        base64 -d <<<'PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogTGFuZ3VhZ2UgICAgICAgICAgICBGaWxlcyAgICAgICAgTGluZXMgICAgICAgICBDb2RlICAgICBDb21tZW50cyAgICAgICBCbGFua3MKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogRG9ja2VyZmlsZSAgICAgICAgICAgICAgMSAgICAgICAgICAgNjAgICAgICAgICAgIDMzICAgICAgICAgICAyMiAgICAgICAgICAgIDUKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQogVG90YWwgICAgICAgICAgICAgICAgICAgMSAgICAgICAgICAgNjAgICAgICAgICAgIDMzICAgICAgICAgICAyMiAgICAgICAgICAgIDUKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
         DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=tokei --build-arg VERSION=12.1.2 - <Dockerfile && ( ./tokei && rm 'tokei' ) 1>$GOT
@@ -105,10 +105,10 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'Y2FyZ28taW5zdGFsbArilJzilIDilIAgRG9ja2VyZmlsZQrilJTilIDilIAgdHJlZQo=' >$EXPECTED
+        base64 -d <<<'NAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=termtree --build-arg VERSION=0.4.0 --build-arg ARGs='--example tree --target x86_64-unknown-linux-musl' - <Dockerfile && ( ./tree && rm 'tree' ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=termtree --build-arg VERSION=0.4.0 --build-arg ARGs='--example tree --target x86_64-unknown-linux-musl' - <Dockerfile && ( ./tree | wc -l && rm 'tree' ) 1>$GOT
       name: " an example with a MUSL target"
     - run: |
         echo expected:
@@ -239,10 +239,10 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
+        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmfvvJogVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0ClJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAgKE9mZmljaWFsIE11c2ljIFZpZGVvKS1kUXc0dzlXZ1hjUS5tcDQK' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang： The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED

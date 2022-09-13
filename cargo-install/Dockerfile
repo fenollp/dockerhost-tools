@@ -48,15 +48,13 @@ COPY --from=product /app/bin/* /
 # ===============================================================================
 #  Language            Files        Lines         Code     Comments       Blanks
 # ===============================================================================
-#  Dockerfile              1           62           33           23            6
+#  Dockerfile              1           60           33           22            5
 # ===============================================================================
-#  Total                   1           62           33           23            6
+#  Total                   1           60           33           22            5
 # ===============================================================================
 ## Usage: an example with a MUSL target
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=termtree --build-arg VERSION=0.4.0 --build-arg ARGs='--example tree --target x86_64-unknown-linux-musl' - <Dockerfile && ( ./tree && rm 'tree' )
-# cargo-install
-# ├── Dockerfile
-# └── tree
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=termtree --build-arg VERSION=0.4.0 --build-arg ARGs='--example tree --target x86_64-unknown-linux-musl' - <Dockerfile && ( ./tree | wc -l && rm 'tree' )
+# 4
 ## Usage: dynamically linked and setting some features
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg CRATE=diesel_cli --build-arg VERSION=2.0.0 --build-arg ARGs='--no-default-features --features postgres' - <Dockerfile && ( ./diesel --version && rm 'diesel' )
 # diesel 2.0.0
