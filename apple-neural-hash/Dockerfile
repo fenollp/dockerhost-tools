@@ -25,8 +25,8 @@ COPY --from=product /out /
 
 ## ARG IMAGE_URL: URL of image (PNG,JPEG,...) file to run inference on. Is downloaded using Dockerfile's ADD statement.
 ## Usage: with some JPEG
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && cat out
-# 529961b484421d0547243dd5
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL='https://placekitten.com/200/140' - <Dockerfile && wc out
+#  1  1 25 out
 ## Usage: pre-image example...
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg IMAGE_URL=https://user-images.githubusercontent.com/1328/129860794-e7eb0132-d929-4c9d-b92e-4e4faba9e849.png - <Dockerfile && cat out
 # 59a34eabe31910abfb06f308
