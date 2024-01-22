@@ -210,10 +210,10 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'Li8xMC4xMDE2QGouc29sZW5lci4yMDIwLjA3LjAxMS5wZGYgIC4vbmF3YXoyMDIwLnBkZiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAo=' >$EXPECTED
+        base64 -d <<<'Li9uYXdhejIwMjAucGRmICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAouLzEwLjEwMTZAai5zb2xlbmVyLjIwMjAuMDcuMDExLnBkZiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCg==' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls ./*.pdf; rm ./*.pdf ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls -1t ./*.pdf; rm ./*.pdf ) 1>$GOT
       name: " some papers"
     - run: |
         echo expected:
