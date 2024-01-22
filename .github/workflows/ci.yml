@@ -195,6 +195,36 @@ jobs:
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
 
+  sci-hub:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: sci-hub
+    steps:
+    - uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v2
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'Li8xMC4xMDE2QGouc29sZW5lci4yMDIwLjA3LjAxMS5wZGYgIC4vbmF3YXoyMDIwLnBkZiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAo=' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls ./*.pdf; rm ./*.pdf ) 1>$GOT
+      name: " some papers"
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
   youtube-dl:
     needs: metaci
     runs-on: ubuntu-latest
