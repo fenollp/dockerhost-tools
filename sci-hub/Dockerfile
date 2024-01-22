@@ -65,5 +65,5 @@ COPY --link=true --from=product /app/* /
 ## ARG ARGs=: space-separated URLs (prefer DOIs)
 ## Usage: some papers
 # DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls -1t ./*.pdf; rm ./*.pdf )
-# ./nawaz2020.pdf                                                                                                                                                                               
-# ./10.1016@j.solener.2020.07.011.pdf                                                                                                                                                           
+# ./nawaz2020.pdf
+# ./10.1016@j.solener.2020.07.011.pdf
