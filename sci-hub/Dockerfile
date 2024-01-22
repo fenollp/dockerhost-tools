@@ -26,7 +26,7 @@ site=${sites[$picked]}
 unset picked
 
 # NOTE: for some reason, +trace goes around censors
-ip=$(dig "$site" +trace @8.8.8.8 | grep -F "$site". | grep -F "$(printf 'IN\tA\t')" | tail -n1 | cut -f6)
+ip=$(dig "$site" +trace @1.1.1.1 | grep -F "$site". | grep -F "$(printf 'IN\tA\t')" | tail -n1 | cut -f6)
 [[ "$ip" = '' ]] && echo "Could not resolve $site" && exit 2
 echo "Resolved $site to $ip"
 
@@ -64,5 +64,6 @@ COPY --link=true --from=product /app/* /
 ## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
 ## ARG ARGs=: space-separated URLs (prefer DOIs)
 ## Usage: some papers
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls ./*.pdf; rm ./*.pdf )
-# ./10.1016@j.solener.2020.07.011.pdf  ./nawaz2020.pdf                                                                                                                                          
+# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='https://doi.org/10.1016/j.solener.2020.07.011 https://doi.org/10.3390/jsan9030035' - <Dockerfile && ( ls -1t ./*.pdf; rm ./*.pdf )
+# ./nawaz2020.pdf                                                                                                                                                                               
+# ./10.1016@j.solener.2020.07.011.pdf                                                                                                                                                           
