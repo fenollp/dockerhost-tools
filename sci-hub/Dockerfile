@@ -26,7 +26,7 @@ site=${sites[$picked]}
 unset picked
 
 # NOTE: for some reason, +trace goes around censors
-ip=$(dig "$site" +trace | grep -F "$site". | grep -F "$(printf 'IN\tA\t')" | tail -n1 | cut -f6)
+ip=$(dig "$site" +trace @8.8.8.8 | grep -F "$site". | grep -F "$(printf 'IN\tA\t')" | tail -n1 | cut -f6)
 [[ "$ip" = '' ]] && echo "Could not resolve $site" && exit 2
 echo "Resolved $site to $ip"
 
