@@ -269,10 +269,10 @@ jobs:
     - run: |
         echo GOT=$(mktemp) >>$GITHUB_ENV
         EXPECTED=$(mktemp)
-        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmfvvJogVGhlIE1vdmllIChGaXhlZCBBdWRpbyktQlhtT2xDeTBvQk0ubXA0ClJpY2sgQXN0bGV5IC0gTmV2ZXIgR29ubmEgR2l2ZSBZb3UgVXAgKE9mZmljaWFsIE11c2ljIFZpZGVvKS1kUXc0dzlXZ1hjUS5tcDQK' >$EXPECTED
+        base64 -d <<<'RG9ja2VyZmlsZQpFcmxhbmcgLSBUaGUgTW92aWUgKEZpeGVkIEF1ZGlvKS1CWG1PbEN5MG9CTS5tcDQKUmljayBBc3RsZXkgLSBOZXZlciBHb25uYSBHaXZlIFlvdSBVcCAoT2ZmaWNpYWwgTXVzaWMgVmlkZW8pLWRRdzR3OVdnWGNRLm1wNAo=' >$EXPECTED
         echo EXPECTED=$EXPECTED >>$GITHUB_ENV
     - run: |
-        DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang： The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
+        DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' ) 1>$GOT
     - run: |
         echo expected:
         cat -A $EXPECTED
