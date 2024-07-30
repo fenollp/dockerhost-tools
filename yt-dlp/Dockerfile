@@ -107,7 +107,7 @@ COPY --from=product /app/* /
 ## ARG ARGs: $SEPARATOR-separated CLI arguments
 ## ARG DO_NOT_REENCODE: set this to skip re-encoding video (with ffmpeg)
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build -o=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' )
+# DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' )
 # Dockerfile
 # Erlang - The Movie (Fixed Audio)-BXmOlCy0oBM.mp4
 # Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4
