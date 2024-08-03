@@ -33,8 +33,7 @@ echo "Resolved $site to $ip"
 cmd+=(--resolve "$site":443:"$ip")
 cmd+=(--header "Host: $site")
 
-rv=$RANDOM
-useragent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:$rv.0) Gecko/20100101 Firefox/$rv.0"
+useragent="Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:128.0) Gecko/20100101 Firefox/128.0"
 cmd+=(-A "$useragent")
 
 [[ "$ARGs" = '' ]] && echo 'Needs at least one link to a paper' && exit 2
