@@ -13,7 +13,7 @@ jobs:
   metaci:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: ./generate_ci.sh
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 EOF
@@ -135,7 +135,7 @@ cat <<EOF >>"$out"
       with:
         username: \${{ secrets.DOCKERHUB_USERNAME }}
         password: \${{ secrets.DOCKERHUB_TOKEN }}
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 EOF
 	Usages "$l" "$f" "$out"
 done
