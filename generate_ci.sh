@@ -131,7 +131,7 @@ cat <<EOF >>"$out"
       run:
         working-directory: ${d}
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: \${{ secrets.DOCKERHUB_USERNAME }}
         password: \${{ secrets.DOCKERHUB_TOKEN }}
