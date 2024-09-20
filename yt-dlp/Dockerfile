@@ -67,9 +67,7 @@ RUN \
  && echo --abort-on-error >>/etc/yt-dlp.conf \
 # TODO: https://github.com/yt-dlp/yt-dlp/issues/2875
  && echo "--sponsorblock-remove 'sponsor,interaction'" >>/etc/yt-dlp.conf \
-# https://github.com/yt-dlp/yt-dlp/issues/871#issuecomment-911701285
-#&& echo --force-keyframes >>/etc/yt-dlp.conf
-#&& echo --force-keyframes-at-cuts >>/etc/yt-dlp.conf
+ && echo --force-keyframes-at-cuts >>/etc/yt-dlp.conf \
  && echo --embed-chapters >>/etc/yt-dlp.conf \
  && echo --embed-info-json >>/etc/yt-dlp.conf \
  && echo --embed-metadata >>/etc/yt-dlp.conf \
@@ -85,7 +83,8 @@ FROM tool AS versions
 RUN \
     set -ux \
  && ffmpeg -version \
- && yt-dlp -vU --version
+ && yt-dlp -vU --version \
+ && exit 42 # Force showing logs
 
 FROM tool AS product
 WORKDIR /app
@@ -99,7 +98,7 @@ RUN \
  && case "$ARGs" in *' -f '*) ;; *' --format '*) ;; *' --format='*) ;; *) ARGs="--format 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b' $ARGs" ;; esac \
  && cmd="$cmd '$(echo "$ARGs" | sed "s%$SEPARATOR%' '%g")'" \
  && eval $cmd
-ARG DO_NOT_REENCODE
+ARG DO_NOT_REENCODE=1
 RUN \
     set -ux \
  && if [ "${DO_NOT_REENCODE:-}" != '1' ]; then \
