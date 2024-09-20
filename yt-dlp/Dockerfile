@@ -98,24 +98,24 @@ RUN \
  && case "$ARGs" in *' -f '*) ;; *' --format '*) ;; *' --format='*) ;; *) ARGs="--format 'bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/bv*+ba/b' $ARGs" ;; esac \
  && cmd="$cmd '$(echo "$ARGs" | sed "s%$SEPARATOR%' '%g")'" \
  && eval $cmd
-ARG DO_NOT_REENCODE=1
-RUN \
-    set -ux \
- && if [ "${DO_NOT_REENCODE:-}" != '1' ]; then \
-      while read -r vid; do \
-      # if matches 11-char vid id then skip anyway, or maybe under env FEELING_LUCKY=1
-# https://superuser.com/questions/908280/what-is-the-correct-way-to-fix-keyframes-in-ffmpeg-for-dash
-        ffmpeg -i "$vid" -force_key_frames 'expr:gte(t,n_forced*3)' _"$vid" && mv _"$vid" "$vid"; \
-# 11 ? to hopefully only match YouTube IDs
-      done < <(ls -1 *-???????????.* | grep -vE .json$); \
-    fi
+## ARG DO_NOT_REENCODE: set this to skip re-encoding video (with ffmpeg)
+# ARG DO_NOT_REENCODE
+# RUN \
+#     set -ux \
+#  && if [ "${DO_NOT_REENCODE:-}" != '1' ]; then \
+#       while read -r vid; do \
+#       # if matches 11-char vid id then skip anyway, or maybe under env FEELING_LUCKY=1
+# # https://superuser.com/questions/908280/what-is-the-correct-way-to-fix-keyframes-in-ffmpeg-for-dash
+#         ffmpeg -i "$vid" -force_key_frames 'expr:gte(t,n_forced*3)' _"$vid" && mv _"$vid" "$vid"; \
+# # 11 ? to hopefully only match YouTube IDs
+#       done < <(ls -1 *-???????????.* | grep -vE .json$); \
+#     fi
 
 FROM scratch
 COPY --from=product /app/* /
 
 ## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
 ## ARG ARGs: $SEPARATOR-separated CLI arguments
-## ARG DO_NOT_REENCODE: set this to skip re-encoding video (with ffmpeg)
 ## Usage:
 # DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang： The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' )
 # Dockerfile
