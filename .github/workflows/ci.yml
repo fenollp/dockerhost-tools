@@ -16,7 +16,7 @@ jobs:
       run:
         working-directory: apple-neural-hash
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -80,7 +80,7 @@ jobs:
       run:
         working-directory: cargo-install
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -144,7 +144,7 @@ jobs:
       run:
         working-directory: deepspeech
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -173,7 +173,7 @@ jobs:
       run:
         working-directory: reinforcement-learning-gym-stable-baselines3
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -202,7 +202,7 @@ jobs:
       run:
         working-directory: sci-hub
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -232,7 +232,7 @@ jobs:
       run:
         working-directory: youtube-dl
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -261,7 +261,7 @@ jobs:
       run:
         working-directory: yt-dlp
     steps:
-    - uses: docker/login-action@v1
+    - uses: docker/login-action@v3
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
