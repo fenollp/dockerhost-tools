@@ -36,6 +36,6 @@ COPY --from=product /app/* /
 ## ARG ARGs: Arguments defined at https://github.com/fogleman/primitive/blob/0373c216458be1c4b40655b796a3aefedf8b7d23/README.md#command-line-usage
 ## ARG IMG_URL: HTTP(S) URL of the input image file
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg IMG_URL='https://img.freepik.com/free-vector/hand-drawn-fresh-pineapple-vector_53876-108732.jpg?t=st=1728727735~exp=1728731335~hmac=8c5e57ed27047cf4e179a33d9c010b2a624a9f9502c181b278c7b4cace21e1d5&w=740' --build-arg ARGs='-o output.svg -n 99 -m 6 -v -bg FFF -rep 9' - <Dockerfile && ( ls -1 . && rm output.svg )
+# DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg IMG_URL='https://img.freepik.com/free-vector/hand-drawn-fresh-pineapple-vector_53876-108732.jpg?t=st=1728727735~exp=1728731335~hmac=8c5e57ed27047cf4e179a33d9c010b2a624a9f9502c181b278c7b4cace21e1d5&w=740' --build-arg ARGs='-o output.svg -rep 9 -m 6 -n 99 -v -bg FFF' - <Dockerfile && ( ls -1 . && rm output.svg )
 # Dockerfile
 # output.svg
