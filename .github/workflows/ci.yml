@@ -166,6 +166,35 @@ jobs:
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
 
+  primitive:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: primitive
+    steps:
+    - uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - uses: actions/checkout@v4
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'RG9ja2VyZmlsZQpvdXRwdXQuc3ZnCg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg IMG_URL='https://img.freepik.com/free-vector/hand-drawn-fresh-pineapple-vector_53876-108732.jpg?t=st=1728727735~exp=1728731335~hmac=8c5e57ed27047cf4e179a33d9c010b2a624a9f9502c181b278c7b4cace21e1d5&w=740' --build-arg ARGs='-o output.svg -n 99 -m 6 -v -bg FFF -rep 9' - <Dockerfile && ( ls -1 . && rm output.svg ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
   reinforcement-learning-gym-stable-baselines3:
     needs: metaci
     runs-on: ubuntu-latest

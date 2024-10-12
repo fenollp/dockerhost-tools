@@ -33,14 +33,9 @@ RUN \
 FROM scratch
 COPY --from=product /app/* /
 
-
-
-## ARG SEPARATOR=' ': non-sed-special string that separates given $ARGs
-## ARG ARGs: $SEPARATOR-separated CLI arguments
+## ARG ARGs: Arguments defined at https://github.com/fogleman/primitive/blob/0373c216458be1c4b40655b796a3aefedf8b7d23/README.md#command-line-usage
+## ARG IMG_URL: HTTP(S) URL of the input image file
 ## Usage:
-# DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg ARGs='--format mp4/bestvideo*+bestaudio/best -- https://www.youtube.com/watch?v=BXmOlCy0oBM https://www.youtube.com/watch?v=dQw4w9WgXcQ' - <Dockerfile && ( ls -1 . && rm 'Erlang： The Movie (Fixed Audio)-BXmOlCy0oBM.mp4' 'Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4' )
+# DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg IMG_URL='https://img.freepik.com/free-vector/hand-drawn-fresh-pineapple-vector_53876-108732.jpg?t=st=1728727735~exp=1728731335~hmac=8c5e57ed27047cf4e179a33d9c010b2a624a9f9502c181b278c7b4cace21e1d5&w=740' --build-arg ARGs='-o output.svg -n 99 -m 6 -v -bg FFF -rep 9' - <Dockerfile && ( ls -1 . && rm output.svg )
 # Dockerfile
-# Erlang： The Movie (Fixed Audio)-BXmOlCy0oBM.mp4
-# Rick Astley - Never Gonna Give You Up (Official Music Video)-dQw4w9WgXcQ.mp4
-
-  # 1s primitive primitive λ DOCKER_HOST=ssh://oomphy DOCKER_BUILDKIT=1 docker build --output=type=local,dest=. --build-arg IMG_URL='https://img.freepik.com/free-vector/hand-drawn-fresh-pineapple-vector_53876-108732.jpg?t=st=1728727735~exp=1728731335~hmac=8c5e57ed27047cf4e179a33d9c010b2a624a9f9502c181b278c7b4cace21e1d5&w=740' --build-arg ARGs='-o output.svg -n 99 -m 6 -v -bg FFF -rep 9' - <Dockerfile
+# output.svg
