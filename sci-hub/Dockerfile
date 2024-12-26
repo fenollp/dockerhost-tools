@@ -3,7 +3,7 @@
 ARG ARGs=
 ARG SEPARATOR=' '
 
-FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:51b67269f354137895d43f3b3d810bfacd3945438e94dc5ac55fdac340352f48 AS tool
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:21dc6063fd678b478f57c0e13f47560d0ea4eeba26dfc947b2a4f81f686b9f45 AS tool
 RUN set -eux \
  && apk update \
  && apk add \
