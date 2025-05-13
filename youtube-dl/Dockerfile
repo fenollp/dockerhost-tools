@@ -1,7 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1@sha256:42399d4635eddd7a9b8a24be879d2f9a930d0ed040a61324cfdf59ef1357b3b2
 
 
-FROM --platform=$BUILDPLATFORM docker.io/library/python:alpine@sha256:dce56d40d885d2c8847aa2a278a29d50450c8e3d10f9d7ffeb2f38dcc1eb0ea4 AS python
+FROM --platform=$BUILDPLATFORM docker.io/library/python:alpine@sha256:c38ead8bcf521573dad837d7ecfdebbc87792202e89953ba8b2b83a9c5a520b6 AS python
 
 
 FROM python AS tool
