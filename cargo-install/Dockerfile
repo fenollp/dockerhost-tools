@@ -3,7 +3,7 @@
 ARG ARGs=
 ARG SEPARATOR=' '
 
-FROM --platform=$BUILDPLATFORM docker.io/library/rust:1@sha256:c83026a50422024a35b8daf0ac9182b5d75c684e7d5fa7a1064f9fddf7b89f42 AS tool
+FROM --platform=$BUILDPLATFORM docker.io/library/rust:1@sha256:33a0ea4769482be860174e1139c457bdcb2a236a988580a28c3a48824cbc17d6 AS tool
 ENV CARGO_HOME /root/.cargo_home
 ARG ARGs
 ARG SEPARATOR
