@@ -50,6 +50,7 @@ RUN \
             websockets \
             xattr \
 #&& pip3 install --no-cache-dir --break-system-packages yt-dlp
+#&& pip3 install --no-cache-dir --break-system-packages git+https://github.com/yt-dlp/yt-dlp.git@refs/pull/10354/merge
  && pip3 install --no-cache-dir --break-system-packages git+https://github.com/yt-dlp/yt-dlp.git@master
 COPY --from=atomicparsley /app/AtomicParsley /usr/local/bin/
 # COPY --from=mutagen /app/mutagen /usr/local/bin/
