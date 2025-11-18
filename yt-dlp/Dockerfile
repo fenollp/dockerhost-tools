@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
 
-FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:beefdbd8a1da6d2915566fde36db9db0b524eb737fc57cd1367effd16dc0d06d AS alpine
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412 AS alpine
 
 FROM alpine AS atomicparsley
 WORKDIR /app
@@ -50,6 +50,7 @@ RUN \
             websockets \
             xattr \
 #&& pip3 install --no-cache-dir --break-system-packages yt-dlp
+#&& pip3 install --no-cache-dir --break-system-packages git+https://github.com/yt-dlp/yt-dlp.git@refs/pull/10354/merge
  && pip3 install --no-cache-dir --break-system-packages git+https://github.com/yt-dlp/yt-dlp.git@master
 COPY --from=atomicparsley /app/AtomicParsley /usr/local/bin/
 # COPY --from=mutagen /app/mutagen /usr/local/bin/

@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
 
-FROM --platform=$BUILDPLATFORM docker.io/library/golang:1@sha256:a7f2fc9834049c1f5df787690026a53738e55fc097cd8a4a93faa3e06c67ee32 AS golang
+FROM --platform=$BUILDPLATFORM docker.io/library/golang:1@sha256:81bf5927dc91aefb42e2bc3a5abdbe9bb3bae8ba8b107e2a4cf43ce3402534c6 AS golang
 
 FROM golang AS tool
 RUN \
