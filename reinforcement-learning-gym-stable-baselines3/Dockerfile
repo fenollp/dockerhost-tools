@@ -2,7 +2,7 @@
 
 
 FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:21a3deaa0d32a8057914f36584b5288d2e5ecc984380bc0118285c70fa8c9300 AS alpine
-FROM --platform=$BUILDPLATFORM docker.io/stablebaselines/rl-baselines3-zoo-cpu:1.3.0@sha256:334dc0127059587c269c091b04664878707720ff93c766a9d19a3f84385a5ade AS rl-baselines3-zoo-cpu
+FROM --platform=$BUILDPLATFORM docker.io/stablebaselines/rl-baselines3-zoo-cpu:2.5.0@sha256:7ce37e5a16ca522235e0d9a6c3b09aeff490fa26a30b6412875d8b404331df5e AS rl-baselines3-zoo-cpu
 
 
 FROM alpine AS bs3-zoo-src
