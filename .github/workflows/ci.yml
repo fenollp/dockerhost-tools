@@ -166,6 +166,35 @@ jobs:
     - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
 
 
+  ffmpeg-reencode:
+    needs: metaci
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ffmpeg-reencode
+    steps:
+    - uses: actions/checkout@v4
+    - uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+    - run: |
+        echo GOT=$(mktemp) >>$GITHUB_ENV
+        EXPECTED=$(mktemp)
+        base64 -d <<<'bXktdmlkZW8ubWt2Cg==' >$EXPECTED
+        echo EXPECTED=$EXPECTED >>$GITHUB_ENV
+    - run: |
+        stat input/my-video.mkv && DOCKER_BUILDKIT=1 docker build -o=outputs/ --build-arg INPUT=my-video.mkv input/ -f Dockerfile && ( ls -1 outputs/ && rm outputs/my-video.mkv ) 1>$GOT
+    - run: |
+        echo expected:
+        cat -A $EXPECTED
+        echo got:
+        cat -A $GOT
+        echo diff:
+        diff --width=150 -y $EXPECTED $GOT
+    - run: git status -sb && [[ 1 -eq $(git status -sb | wc -l) ]]
+
+
   primitive:
     needs: metaci
     runs-on: ubuntu-latest
