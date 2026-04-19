@@ -132,7 +132,7 @@ cat <<EOF >>"$out"
         working-directory: ${d}
     steps:
     - uses: actions/checkout@v6
-    - uses: docker/login-action@v3
+    - uses: docker/login-action@v4
       with:
         username: \${{ secrets.DOCKERHUB_USERNAME }}
         password: \${{ secrets.DOCKERHUB_TOKEN }}
