@@ -17,7 +17,7 @@ ADD https://github.com/mozilla/DeepSpeech/releases/download/v$VERSION/deepspeech
 
 # Create CPU and GPU versions of the tool
 
-FROM --platform=$BUILDPLATFORM python:3-slim@sha256:751d8bece269ba9e672b3f2226050e7e6fb3f3da3408b5dcb5d415a054fcb061 AS python-tool
+FROM --platform=$BUILDPLATFORM python:3-slim@sha256:bc389f7dfcb21413e72a28f491985326994795e34d2b86c8ae2f417b4e7818aa AS python-tool
 RUN \
     set -ux \
     # https://github.com/moby/buildkit/blob/8f2e691b19969f3bc2737d98054d26f8e7c37619/frontend/dockerfile/docs/syntax.md#example-cache-apt-packages
