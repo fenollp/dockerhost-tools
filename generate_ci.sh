@@ -13,7 +13,7 @@ jobs:
   metaci:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - run: ./generate_ci.sh
     - run: git status -sb && [[ 1 -eq \$(git status -sb | wc -l) ]]
 EOF
@@ -131,7 +131,7 @@ cat <<EOF >>"$out"
       run:
         working-directory: ${d}
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - uses: docker/login-action@v4
       with:
         username: \${{ secrets.DOCKERHUB_USERNAME }}
