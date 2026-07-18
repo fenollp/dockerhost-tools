@@ -1,7 +1,7 @@
 # syntax=docker.io/docker/dockerfile:1@sha256:42399d4635eddd7a9b8a24be879d2f9a930d0ed040a61324cfdf59ef1357b3b2
 
 
-FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:5b10f432ef3da1b8d4c7eb6c487f2f5a8f096bc91145e68878dd4a5019afde11 AS alpine
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:28bd5fe8b56d1bd048e5babf5b10710ebe0bae67db86916198a6eec434943f8b AS alpine
 FROM --platform=$BUILDPLATFORM docker.io/stablebaselines/rl-baselines3-zoo-cpu:1.3.0@sha256:334dc0127059587c269c091b04664878707720ff93c766a9d19a3f84385a5ade AS rl-baselines3-zoo-cpu
 
 
