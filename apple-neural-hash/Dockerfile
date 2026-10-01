@@ -2,7 +2,7 @@
 
 # https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/issues/2#issuecomment-901246239
 
-FROM --platform=$BUILDPLATFORM python:3-slim@sha256:bc389f7dfcb21413e72a28f491985326994795e34d2b86c8ae2f417b4e7818aa AS tool
+FROM --platform=$BUILDPLATFORM python:3-slim@sha256:5b3879b6f3cb77e712644d50262d05a7c146b7312d784a18eff7ff5462e77033 AS tool
 ADD https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/files/7008624/apple-neural-hash.zip /
 # ADD https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/raw/master/nnhash.py nnhash.py
 ADD https://github.com/AsuharietYgvar/AppleNeuralHash2ONNX/raw/8c12f06ae6b9f788fef25a361f7609b8fb6f7c73/nnhash.py nnhash.py
