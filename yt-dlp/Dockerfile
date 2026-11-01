@@ -1,6 +1,6 @@
 # syntax=docker.io/docker/dockerfile:1@sha256:865e5dd094beca432e8c0a1d5e1c465db5f998dca4e439981029b3b81fb39ed5
 
-FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:294b683cb724975bec92580e1e685676bd4b50bda910ddb8c51d4cabeaec77e6 AS alpine
+FROM --platform=$BUILDPLATFORM docker.io/library/alpine@sha256:be2656061b536c1883c4034790e21d0a09c5aaaf51968b89368a3c0371ea2c9a AS alpine
 
 FROM alpine AS atomicparsley
 WORKDIR /app
